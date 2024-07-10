@@ -3,12 +3,12 @@ import Link from "next/link";
 import { LatestPost } from "~/app/_components/post";
 import { api, HydrateClient } from "~/trpc/server";
 import { Text, Title, Center, Code } from "@mantine/core";
-import { Search } from "./_components/search";
+import { SearchArray } from "./_components/searchArray";
 
 
 export default async function Home() {
-  // const hello = await api.post.hello({ text: "from tRPC" });
-  const hello = await api.product.hello({ text: "from tRPC" });
+  const hello = await api.post.hello({ text: "from tRPC" });
+  // const hello = await api.product.hello({ text: "from tRPC" });
 
   void api.post.getLatest.prefetch();
 
@@ -31,7 +31,7 @@ export default async function Home() {
           </div>
 
           <LatestPost />
-          <Search/>
+          <SearchArray/>
 
 
         </div>
