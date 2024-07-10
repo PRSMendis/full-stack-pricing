@@ -1,0 +1,47 @@
+[
+  {
+    "title": "High Garden  Pinot Noir 2021",
+    "skUcode": "HGVPIN216",
+    "brand": "High Garden",
+    "categoryID": "Alcoholic Beverage",
+    "subCategoryId": "Wine",
+    "segmentId": "Red",
+    "Global wholesale price": 279.06
+  },
+  {
+    "title": "Koyama Methode  Brut Nature NV",
+    "skUcode": "KOYBRUNV6",
+    "brand": "Koyama Wines",
+    "categoryID": "Alcoholic Beverage",
+    "subCategoryId": "Wine",
+    "segmentId": "Sparkling",
+    "Global wholesale price": 120
+  },
+  {
+    "title": "Koyama  Riesling 2018",
+    "skUcode": "KOYNR1837",
+    "brand": "Koyama Wines",
+    "categoryID": "Alcoholic Beverage",
+    "subCategoryId": "Wine",
+    "segmentId": "Port/Dessert",
+    "Global wholesale price": 215.04
+  },
+  {
+    "title": "Koyama Tussock Riesling 2019",
+    "skUcode": "KOYRIE19",
+    "brand": "Koyama Wines",
+    "categoryID": "Alcoholic Beverage",
+    "subCategoryId": "Wine",
+    "segmentId": "White",
+    "Global wholesale price": 215.04
+  },
+  {
+    "title": "Lacourte-Godbillon Brut Cru NV",
+    "skUcode": "LACBNATNV6",
+    "brand": "Lacourte-Godbillon",
+    "categoryID": "Alcoholic Beverage",
+    "subCategoryId": "Wine",
+    "segmentId": "Sparkling",
+    "Global wholesale price": 409.32
+  }
+]

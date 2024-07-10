@@ -18,3 +18,16 @@ model Post {
 
     @@index([name])
 }
+
+model Product {
+    sku           String   @id @unique
+    name          String
+    quantity      Int
+    brand         String
+    categoryId    String
+    subCategoryId String
+    segmentId     String
+    price         Float
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+}

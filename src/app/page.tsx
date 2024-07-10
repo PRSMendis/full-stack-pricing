@@ -3,6 +3,7 @@ import Link from "next/link";
 import { LatestPost } from "~/app/_components/post";
 import { api, HydrateClient } from "~/trpc/server";
 import { Text, Title, Center, Code } from "@mantine/core";
+import { Search } from "./_components/search";
 
 
 export default async function Home() {
@@ -29,7 +30,8 @@ export default async function Home() {
             </p>
           </div>
 
-          {/* <LatestPost /> */}
+          <LatestPost />
+          <Search/>
 
 
         </div>
