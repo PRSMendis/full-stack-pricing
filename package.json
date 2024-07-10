@@ -1,6 +1,9 @@
 {
   "name": "pricing",
   "version": "0.1.0",
+  "prisma": {
+    "seed": "node --loader ts-node/esm prisma/seed.ts"
+  },
   "private": true,
   "type": "module",
   "scripts": {

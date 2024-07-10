@@ -1,4 +1,4 @@
-import { PrismaClient, DateTime } from '@prisma/client'; // Import the DateTime type
+import { PrismaClient } from '@prisma/client'; // Import the DateTime type
 const prisma = new PrismaClient();
 async function main() {
   const pinot = await prisma.product.upsert({
@@ -11,10 +11,10 @@ async function main() {
       brand: 'High Garden ',
       categoryId: 'Alcoholic Beverage',
       subCategoryId: 'Wine',
-      Red: 'Red',
+      segmentId: 'Red',
       price: 279.06,
-      createdAt: DateTime.now(), // Correct the syntax of the @default decorator
-      updatedAt: DateTime.now(), // Correct the syntax of the @updatedAt decorator
+      createdAt: new Date(),
+      updatedAt: new Date(), 
     },
   });
   console.log(pinot)
