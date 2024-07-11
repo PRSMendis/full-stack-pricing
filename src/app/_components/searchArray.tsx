@@ -9,19 +9,19 @@ import { Search } from "./search";
 import { attributeMapper } from "../utils/searchHelper";
 
 export function SearchArray() {
-  const [productInput, setProductInput] = useState({
+  const [selectedProduct, setSelectedProduct] = useState({
     sku: '',
     name: '',
   });
 
-  const handleChange = (e) => {
-    console.log('e: ', e);
-    const { name, value } = e.target;
-    setProductInput(prevProduct => ({
-      ...prevProduct,
-      [name]: value,
-    }));
+  const handleSelect = (identifier, value) => {
+    const product = products.find(p => p[identifier] === value);
+    if (product) {
+      setSelectedProduct(product);
+    }
   };
+
+
   const [products, productsQuery] = api.product.getAll.useSuspenseQuery({limit: 2});
   if (productsQuery.error) {
     return <div>Error fetching products.</div>;
@@ -43,25 +43,21 @@ const attributes = attributeMapper(products)
 //     },
 //   });
 
-  return (
-    // display title, sku, category, segment, brand
-    // <Autocomplete data={productSkus}/>
-    <>
-      <Autocomplete 
-        data={attributes.name}
-        type="text"
-        name="name"
-        value={productInput.name}
-        onChange={handleChange}
-        placeholder="Name"/>
-      <Autocomplete 
-        data={attributes.sku}
-        type="text"
-        name="sku"
-        value={productInput.sku}
-        onChange={handleChange}
-        placeholder="SKU"/>
-    </>
-    // <Search />
-  );
+return (
+  <>
+    <Autocomplete
+      data={products.map(product => product.name)}
+      value={selectedProduct.name || ''}
+      onChange={(value) => handleSelect('name', value)}
+      placeholder="Name"
+    />
+    <Autocomplete
+      data={products.map(product => product.sku)}
+      value={selectedProduct.sku || ''}
+      onChange={(value) => handleSelect('sku', value)}
+      placeholder="SKU"
+    />
+    {/* Add more Autocomplete components as needed for other attributes */}
+  </>
+);
 }
