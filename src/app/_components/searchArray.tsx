@@ -23,41 +23,33 @@ export function SearchArray() {
 
 
   const [products, productsQuery] = api.product.getAll.useSuspenseQuery({limit: 2});
+  const { isFetching} =productsQuery;
   if (productsQuery.error) {
     return <div>Error fetching products.</div>;
   }
   
-  if (!products) {
+  if (isFetching) {
     return <div>Loading...</div>;
   }
 const productSkus = products.map(product => product.sku);
 const attributes = attributeMapper(products)
   
-  const { isFetching} =productsQuery;
   const utils = api.useUtils();
-//   const [name, setName] = useState("");
-//   const createPost = api.post.create.useMutation({
-//     onSuccess: async () => {
-//       await utils.post.invalidate();
-//       setName("");
-//     },
-//   });
 
 return (
   <>
     <Autocomplete
       data={products.map(product => product.name)}
       value={selectedProduct.name || ''}
-      onChange={(value) => handleSelect('name', value)}
+      onOptionSubmit={(value) => handleSelect('name', value)}
       placeholder="Name"
     />
     <Autocomplete
       data={products.map(product => product.sku)}
       value={selectedProduct.sku || ''}
-      onChange={(value) => handleSelect('sku', value)}
+      onOptionSubmit={(value) => handleSelect('sku', value)}
       placeholder="SKU"
     />
-    {/* Add more Autocomplete components as needed for other attributes */}
   </>
 );
 }
