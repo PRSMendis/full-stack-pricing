@@ -14,18 +14,14 @@ export function SearchArray() {
     name: '',
   });
 
-  const handleSelect = (identifier, value) => {
+  const handleSelect = (identifier: keyof typeof selectedProduct, value: string) => {
     const product = products.find(p => p[identifier] === value);
     if (product) {
       setSelectedProduct(product);
     }
   };
 
-  const handleChange = (identifier, value) => {
-    console.log('value: ', value);
-    console.log('identifier: ', identifier);
-    // console.log('e: ', e);
-    // const { name, value } = e;
+  const handleChange = (identifier: keyof typeof selectedProduct, value: string) => {
     setSelectedProduct(prevProduct => ({
       ...prevProduct,
       [identifier]: value,
@@ -42,22 +38,19 @@ export function SearchArray() {
   if (isFetching) {
     return <div>Loading...</div>;
   }
-const productSkus = products.map(product => product.sku);
-const attributes = attributeMapper(products)
-  
+  const attributes = attributeMapper(products)
   const utils = api.useUtils();
-
 return (
   <>
     <Autocomplete
-      data={products.map(product => product.name)}
+      data={attributes.name}
       value={selectedProduct.name || ''}
       onChange={(value) => handleChange('name', value)}
       onOptionSubmit={(value) => handleSelect('name', value)}
       placeholder="Name"
     />
     <Autocomplete
-      data={products.map(product => product.sku)}
+      data={attributes.sku}
       value={selectedProduct.sku || ''}
       onChange={(value) => handleChange('sku', value)}
       onOptionSubmit={(value) => handleSelect('sku', value)}
