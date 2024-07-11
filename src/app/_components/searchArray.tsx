@@ -21,6 +21,17 @@ export function SearchArray() {
     }
   };
 
+  const handleChange = (identifier, value) => {
+    console.log('value: ', value);
+    console.log('identifier: ', identifier);
+    // console.log('e: ', e);
+    // const { name, value } = e;
+    setSelectedProduct(prevProduct => ({
+      ...prevProduct,
+      [identifier]: value,
+    }));
+  };
+
 
   const [products, productsQuery] = api.product.getAll.useSuspenseQuery({limit: 2});
   const { isFetching} =productsQuery;
@@ -41,12 +52,14 @@ return (
     <Autocomplete
       data={products.map(product => product.name)}
       value={selectedProduct.name || ''}
+      onChange={(value) => handleChange('name', value)}
       onOptionSubmit={(value) => handleSelect('name', value)}
       placeholder="Name"
     />
     <Autocomplete
       data={products.map(product => product.sku)}
       value={selectedProduct.sku || ''}
+      onChange={(value) => handleChange('sku', value)}
       onOptionSubmit={(value) => handleSelect('sku', value)}
       placeholder="SKU"
     />
