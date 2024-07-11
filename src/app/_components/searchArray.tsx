@@ -4,18 +4,21 @@ import { Autocomplete } from "@mantine/core";
 import { useState } from "react";
 
 import { api } from "~/trpc/react";
-import { Search } from "./search";
+// import { Search } from "./search";
+import { Product } from "@prisma/client";
 
 import { attributeMapper } from "../utils/searchHelper";
 
 export function SearchArray() {
-  const [selectedProduct, setSelectedProduct] = useState({
+  const emptyProduct = {
     sku: '',
     name: '',
-  });
+  }
+  const [selectedProduct, setSelectedProduct] = useState(emptyProduct);
 
   const handleSelect = (identifier: keyof typeof selectedProduct, value: string) => {
     const product = products.find(p => p[identifier] === value);
+    // const product = products.filter(p => p[identifier] === value); //will return all that match
     if (product) {
       setSelectedProduct(product);
     }
@@ -39,7 +42,7 @@ export function SearchArray() {
     return <div>Loading...</div>;
   }
   const attributes = attributeMapper(products)
-  const utils = api.useUtils();
+  // const utils = api.useUtils();
 return (
   <>
     <Autocomplete
@@ -56,6 +59,26 @@ return (
       onOptionSubmit={(value) => handleSelect('sku', value)}
       placeholder="SKU"
     />
+    <Search
+      attribute='categoryId'
+      data={attributes.categoryId}
+      value={selectedProduct}
+      onChange={handleChange}
+      onOptionSubmit={handleSelect}
+      placeholder="Category"
+    />
   </>
 );
+}
+
+function Search({ attribute, data, value, onChange, onOptionSubmit, placeholder }: SearchProps) {
+  return (
+    <Autocomplete
+      data={data}
+      value={value[attribute] || ''}
+      onChange={(value) => onChange(attribute, value)}
+      onOptionSubmit={(value) => onOptionSubmit(attribute, value)}
+      placeholder={placeholder}
+    />
+  );
 }
