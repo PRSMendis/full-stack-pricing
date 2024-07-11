@@ -16,12 +16,30 @@ export const productRouter = createTRPCRouter({
       });
     }),
 
-  getLatest: publicProcedure.query(({ ctx }) => {
-    // return ctx.db.product.findMany()
-    return ctx.db.product.findFirst()
+  getLatest: publicProcedure.query(async ({ ctx }) => {
+    try {
+      const product = await ctx.db.product.findFirst();
+      if (!product) {
+        throw new Error("No products found.");
+      }
+      return product;
+    } catch (error) {
+      console.error("Failed to fetch the latest product:", error);
+      throw new Error("Unable to fetch the latest product at this time.");
+    }
   }),
-  getAll: publicProcedure.query(({ ctx, input }) => {
-    const posts = ctx.db.product.findMany({take: 3})
-    return posts
+  getAll: publicProcedure
+  .input(z.object({ limit: z.number().min(1).max(100) }))
+  .query(async ({ ctx, input }) => {
+    try {
+      const limit = input.limit || 10;
+      const products = await ctx.db.product.findMany({
+        take: limit,
+      });
+      return products;
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+      throw new Error("Unable to fetch products at this time.");
+    }
   }),
 });

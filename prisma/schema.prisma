@@ -30,4 +30,5 @@ model Product {
     price         Float
     createdAt     DateTime @default(now())
     updatedAt     DateTime @updatedAt
+    // TODO: Add batch creation time, expiry date
 }
