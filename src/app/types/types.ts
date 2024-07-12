@@ -4,5 +4,6 @@ export const TableFields = [
     { field: "name" },
     { field: "categoryId"},
     { field: "price" },
-    { field: 'price Adjustment'}
+    { field: 'price Adjustment'},
+    { field: 'New Price'}
   ]

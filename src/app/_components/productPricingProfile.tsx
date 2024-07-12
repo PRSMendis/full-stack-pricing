@@ -8,10 +8,12 @@ import { ProductGrid } from "./productGrid";
 
 export function ProductPricingProfile() {   
     const [products, productsQuery] = api.product.getAll.useSuspenseQuery({limit: 2});
+    const [amendedProduct, amendedProductQuery] = api.amendedProduct.getOne.useSuspenseQuery();
+    // amendedProduct endpoint is created, just need to combine it with Product and display in the grid.
+    console.log('amendedProduct: ', amendedProduct);
     const [rowData, setRowData] = useState([])
     const { isFetching} =productsQuery;
     const [selectedProduct, setSelectedProduct] = useState([]);
-    console.log('selectedProduct: ', selectedProduct);  
     // TODO: Update the input so that items that have already been added can't be added again
 
     useEffect(() => {

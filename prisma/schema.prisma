@@ -10,15 +10,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@index([name])
-}
-
 model Product {
     sku            String           @id @unique
     name           String
@@ -34,7 +25,26 @@ model Product {
     AmendedProduct AmendedProduct[]
 }
 
+model Supplier {
+    id              String           @id @unique
+    name            String
+    contactInfo     String?
+    amendedProducts AmendedProduct[]
+    // TODO: here should be a pricing model type, that can be an array
+    // pricingModel PrincingModel[], each pricing model should be an array of amendedProducts
+}
+
 model AmendedProduct {
-    Product    Product @relation(fields: [productSku], references: [sku])
-    productSku String
+    id             Int      @id @default(autoincrement())
+    productSku     String
+    supplierId     String
+    Product        Product  @relation(fields: [productSku], references: [sku])
+    Supplier       Supplier @relation(fields: [supplierId], references: [id])
+    isAmended      Boolean  @default(false)
+    isAbsolute     Boolean?
+    amendmentValue Float    @default(0)
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+
+    @@unique([productSku, supplierId])
 }

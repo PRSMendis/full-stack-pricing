@@ -56,8 +56,17 @@ const riesling = await prisma.product.upsert({
         updatedAt: new Date(), 
     },
 });
+const supplier = await prisma.supplier.upsert({
+  where: { id: 'supplier1' },
+  update: {},
+  create: {
+      id: 'supplier1',
+      name: 'Global Supplies Inc.',
+      contactInfo: 'contact@globalsupplies.com',
+  },
+});
 
-console.log(pinot, brutNature, riesling);
+console.log(pinot, brutNature, riesling, supplier);
 }
 main()
   .then(async () => {

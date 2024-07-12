@@ -21,19 +21,12 @@ export function SearchArray({products, selectedProduct, setSelectedProduct}: Sea
     const [inputValue, setInputValue] = useState(emptyProduct);
 
   const handleSelect = (attribute: keyof typeof selectedProduct, value: string) => {
-    // const product = products.find(p => p[attribute] === value);
-    const product = products.filter(p => p[attribute] === value); //will return all that match
+    const product = products.filter(p => p[attribute] === value); //will return all that match, could also use .find for one at a time
     if (product) {
-      // setInputValue(product)
       setSelectedProduct(currentProduct => [...currentProduct, ...product] );
     }
     // TODO: Evaluate this setTimeout and replace it
     setTimeout(()=> setInputValue(emptyProduct), 50)
-    // setInputValue({})
-    // setInputValue(input => emptyProduct)
-    // handleChange(attribute, value)
-    // clearInput()
-    // () => clearInput()
   };
 
   const handleChange = (attribute: keyof typeof inputValue, value: string) => {
@@ -42,16 +35,11 @@ export function SearchArray({products, selectedProduct, setSelectedProduct}: Sea
       [attribute]: value,
     }));
   };
-  const clearInput = () => {
-    setInputValue(emptyProduct);
-  };
   
 
   
-  // const utils = api.useUtils();
 return (
   <div className="container flex flex-row items-center justify-center gap-1 px-4 py-1">
-    <button onClick={clearInput}>Clear</button>
     <Search
       attribute='name'
       data={attributes.name}
