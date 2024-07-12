@@ -1,84 +1,81 @@
 "use client";
 
-import { Autocomplete } from "@mantine/core";
 import { useState } from "react";
-
-import { api } from "~/trpc/react";
-// import { Search } from "./search";
 import { Product } from "@prisma/client";
-
 import { attributeMapper } from "../utils/searchHelper";
+import { Search } from "./search";
 
-export function SearchArray() {
+interface SearchArrayProps {
+  products: Product[];
+  selectedProduct: Product[];
+  setSelectedProduct: (product: Product) => void;
+}
+
+export function SearchArray({products, selectedProduct, setSelectedProduct}: SearchArrayProps)   {
+  const attributes = attributeMapper(products)
   const emptyProduct = {
     sku: '',
     name: '',
+    categoryId: '',
   }
-  const [selectedProduct, setSelectedProduct] = useState(emptyProduct);
+    const [inputValue, setInputValue] = useState(emptyProduct);
 
-  const handleSelect = (identifier: keyof typeof selectedProduct, value: string) => {
-    const product = products.find(p => p[identifier] === value);
-    // const product = products.filter(p => p[identifier] === value); //will return all that match
+  const handleSelect = (attribute: keyof typeof selectedProduct, value: string) => {
+    // const product = products.find(p => p[attribute] === value);
+    const product = products.filter(p => p[attribute] === value); //will return all that match
     if (product) {
-      setSelectedProduct(product);
+      // setInputValue(product)
+      setSelectedProduct(currentProduct => [...currentProduct, ...product] );
     }
+    // TODO: Evaluate this setTimeout and replace it
+    setTimeout(()=> setInputValue(emptyProduct), 50)
+    // setInputValue({})
+    // setInputValue(input => emptyProduct)
+    // handleChange(attribute, value)
+    // clearInput()
+    // () => clearInput()
   };
 
-  const handleChange = (identifier: keyof typeof selectedProduct, value: string) => {
-    setSelectedProduct(prevProduct => ({
+  const handleChange = (attribute: keyof typeof inputValue, value: string) => {
+    setInputValue(prevProduct => ({
       ...prevProduct,
-      [identifier]: value,
+      [attribute]: value,
     }));
   };
-
-
-  const [products, productsQuery] = api.product.getAll.useSuspenseQuery({limit: 2});
-  const { isFetching} =productsQuery;
-  if (productsQuery.error) {
-    return <div>Error fetching products.</div>;
-  }
+  const clearInput = () => {
+    setInputValue(emptyProduct);
+  };
   
-  if (isFetching) {
-    return <div>Loading...</div>;
-  }
-  const attributes = attributeMapper(products)
+
+  
   // const utils = api.useUtils();
 return (
-  <>
-    <Autocomplete
+  <div className="container flex flex-row items-center justify-center gap-1 px-4 py-1">
+    <button onClick={clearInput}>Clear</button>
+    <Search
+      attribute='name'
       data={attributes.name}
-      value={selectedProduct.name || ''}
-      onChange={(value) => handleChange('name', value)}
-      onOptionSubmit={(value) => handleSelect('name', value)}
-      placeholder="Name"
+      value={inputValue}
+      onChange={handleChange}
+      onOptionSubmit={handleSelect}
+      placeholder="name"
     />
-    <Autocomplete
+    <Search
+      attribute='sku'
       data={attributes.sku}
-      value={selectedProduct.sku || ''}
-      onChange={(value) => handleChange('sku', value)}
-      onOptionSubmit={(value) => handleSelect('sku', value)}
-      placeholder="SKU"
+      value={inputValue}
+      onChange={handleChange}
+      onOptionSubmit={handleSelect}
+      placeholder="sku"
     />
     <Search
       attribute='categoryId'
       data={attributes.categoryId}
-      value={selectedProduct}
+      value={inputValue}
       onChange={handleChange}
       onOptionSubmit={handleSelect}
       placeholder="Category"
     />
-  </>
+  </div>
 );
-}
-
-function Search({ attribute, data, value, onChange, onOptionSubmit, placeholder }: SearchProps) {
-  return (
-    <Autocomplete
-      data={data}
-      value={value[attribute] || ''}
-      onChange={(value) => onChange(attribute, value)}
-      onOptionSubmit={(value) => onOptionSubmit(attribute, value)}
-      placeholder={placeholder}
-    />
-  );
 }

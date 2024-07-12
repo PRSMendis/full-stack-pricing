@@ -1,11 +1,22 @@
-
 import { Autocomplete } from "@mantine/core";
-import { useState } from "react";
 
-import { api } from "~/trpc/react";
+interface SearchProps {
+  attribute: string;
+  data: string[];
+  value: Record<string, string>;
+  onChange: (attribute: string, value: string) => void;
+  onOptionSubmit: (attribute: string, value: string) => void;
+  placeholder: string;
+}
 
-export function Search() {
+export function Search({ attribute, data, value, onChange, onOptionSubmit, placeholder }: SearchProps) {
   return (
-    <Autocomplete/>
+    <Autocomplete
+      data={data}
+      value={value[attribute]}
+      onChange={(value) => onChange(attribute, value)}
+      onOptionSubmit={(value) => onOptionSubmit(attribute, value)}
+      placeholder={placeholder}
+    />
   );
 }

@@ -20,15 +20,21 @@ model Post {
 }
 
 model Product {
-    sku           String   @id @unique
-    name          String
-    quantity      Int
-    brand         String
-    categoryId    String
-    subCategoryId String
-    segmentId     String
-    price         Float
-    createdAt     DateTime @default(now())
-    updatedAt     DateTime @updatedAt
+    sku            String           @id @unique
+    name           String
+    quantity       Int
+    brand          String
+    categoryId     String
+    subCategoryId  String
+    segmentId      String
+    price          Float
+    createdAt      DateTime         @default(now())
+    updatedAt      DateTime         @updatedAt
     // TODO: Add batch creation time, expiry date
+    AmendedProduct AmendedProduct[]
+}
+
+model AmendedProduct {
+    Product    Product @relation(fields: [productSku], references: [sku])
+    productSku String
 }
